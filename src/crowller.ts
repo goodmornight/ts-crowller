@@ -1,61 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 import superagent from 'superagent';
-import cheerio from 'cheerio';
+import DellAnalyzer from './dellAnalyzer';
 
-interface Course {
-  title: string,
-  count: number
-}
-
-interface CourseInfo {
-  time: number,
-  data: Course[]
-}
-
-interface Content {
-  [propName: number]: Course[];
+export interface Analyzer {
+  analyzer: (html:string, filePath: string) => string
 }
 
 class Crowller {
-  private secret = 'x3b174jsx';
-  private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`;
+
   private filePath = path.resolve(__dirname, '../data/course.json');
 
-  getCourseInfo(html: string) {
-    const $ = cheerio.load(html);
-    const courseItems = $('.course-item');
-    const courseInfos: Course[] = [];
-    courseItems.map((indx, elem) => {
-      const desc = $(elem).find('.course-desc');
-      const title = desc.eq(0).text();
-      const count = parseInt(desc.eq(1).text().split('：')[1], 10);
-      courseInfos.push({
-        title,
-        count
-      })
-    });
-    
-    return {
-      time: new Date().getTime(),
-      data: courseInfos
-    }
-  }
-
-  generateJsonContent(courseInfo: CourseInfo) {
-    let fileContent: Content = {};
-    if(fs.existsSync(this.filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'))
-    }
-    fileContent[courseInfo.time] = courseInfo.data;
-    return fileContent;
+  writeFile(fileContent:string) {
+    fs.writeFileSync(this.filePath, fileContent);
   }
 
   async initSpiderProcess() {
     const html = await this.getRawHtml();
-    const courseInfo = this.getCourseInfo(html);
-    const fileContent = this.generateJsonContent(courseInfo);
-    fs.writeFileSync(this.filePath, JSON.stringify(fileContent));
+    const fileContent = this.analyzer.analyzer(html, this.filePath)
+    this.writeFile(fileContent)
   }
 
   async getRawHtml() {
@@ -63,9 +26,12 @@ class Crowller {
     return result.text;
   }
 
-  constructor () {
+  constructor(private url: string, private analyzer: Analyzer) {
     this.initSpiderProcess()
   }
 }
+const secret = 'x3b174jsx';
+const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
 
-const crowller = new Crowller();
+const analyzer = new DellAnalyzer()
+const crowller = new Crowller(url, analyzer);
