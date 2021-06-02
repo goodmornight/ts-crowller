@@ -1,9 +1,20 @@
+import fs from 'fs';
+import path from 'path';
 import superagent from 'superagent';
 import cheerio from 'cheerio';
 
 interface Course {
   title: string,
   count: number
+}
+
+interface CourseInfo {
+  time: number,
+  data: Course[]
+}
+
+interface Content {
+  [propName: number]: Course[];
 }
 
 class Crowller {
@@ -30,10 +41,22 @@ class Crowller {
     }
   }
 
+  generateJsonContent(courseInfo: CourseInfo) {
+    const filePath = path.resolve(__dirname, '../data/course.json');
+    let fileContent: Content = {};
+    if(fs.existsSync(filePath)) {
+      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    }
+    fileContent[courseInfo.time] = courseInfo.data;
+    return fileContent;
+  }
+
   async initSpiderProcess() {
+    const filePath = path.resolve(__dirname, '../data/course.json');
     const html = await this.getRawHtml();
     const courseInfo = this.getCourseInfo(html);
-    console.log(courseInfo)
+    const fileContent = this.generateJsonContent(courseInfo);
+    fs.writeFileSync(filePath, JSON.stringify(fileContent));
   }
 
   async getRawHtml() {
