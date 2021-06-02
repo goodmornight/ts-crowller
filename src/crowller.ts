@@ -24,20 +24,25 @@ class Crowller {
       })
     });
     
-    const result = {
+    return {
       time: new Date().getTime(),
       data: courseInfos
     }
-    console.log(result)
+  }
+
+  async initSpiderProcess() {
+    const html = await this.getRawHtml();
+    const courseInfo = this.getCourseInfo(html);
+    console.log(courseInfo)
   }
 
   async getRawHtml() {
     const result = await superagent.get(this.url);
-    this.getCourseInfo(result.text);
+    return result.text;
   }
 
   constructor () {
-    this.getRawHtml();
+    this.initSpiderProcess()
   }
 }
 
