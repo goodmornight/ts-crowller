@@ -18,5 +18,8 @@ router.post('/getData', function (req, res) {
         new crowller_1.default(url, analyzer);
         res.send('获取数据');
     }
+    else {
+        res.send(req.teacherName + " Error");
+    }
 });
 exports.default = router;
