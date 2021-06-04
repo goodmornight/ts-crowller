@@ -9,7 +9,7 @@ export interface Analyzer {
 
 class Crowller {
 
-  private filePath = path.resolve(__dirname, '../data/course.json');
+  private filePath = path.resolve(__dirname, '../../data/course.json');
 
   writeFile(fileContent:string) {
     fs.writeFileSync(this.filePath, fileContent);
