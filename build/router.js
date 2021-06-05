@@ -19,15 +19,7 @@ var checkLogin = function (req, res, next) {
     }
 };
 var router = express_1.Router();
-router.get('/', function (req, res) {
-    var isLogin = req.session ? req.session.login : false;
-    if (isLogin) {
-        res.send("\n      <html>\n        <body>\n          <a href='/getData'>\u722C\u53D6\u5185\u5BB9</a>\n          <a href='/showData'>\u5C55\u793A\u5185\u5BB9</a>\n          <a href='/logout'>\u9000\u51FA</a>\n        </body>\n      </html>\n    ");
-    }
-    else {
-        res.send("\n    <html>\n      <body>\n        <form method=\"post\" action=\"/login\">\n          <input type=\"password\" name=\"password\" />\n          <button>\u63D0\u4EA4</button>\n        </form>\n      </body>\n    </html>\n    ");
-    }
-});
+router.get('/', function () { });
 router.post('/login', function (req, res) {
     var password = req.body.password;
     var isLogin = req.session ? req.session.login : false;
