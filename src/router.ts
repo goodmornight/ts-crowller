@@ -39,13 +39,7 @@ router.post('/login', (req: BodyRequest, res: Response) => {
   }
 })
 
-router.get('/logout', (req: BodyRequest, res: Response) => {
-
-  if(req.session) {
-    req.session.login = undefined;
-  }
-  res.json(getResponseData(true));
-})
+router.get('/logout', () => {})
 
 router.get('/getData', checkLogin, (req: BodyRequest, res: Response) => {
   

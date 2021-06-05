@@ -36,12 +36,7 @@ router.post('/login', function (req, res) {
         }
     }
 });
-router.get('/logout', function (req, res) {
-    if (req.session) {
-        req.session.login = undefined;
-    }
-    res.json(util_1.getResponseData(true));
-});
+router.get('/logout', function () { });
 router.get('/getData', checkLogin, function (req, res) {
     var secret = 'x3b174jsx';
     var url = "http://www.dell-lee.com/typescript/demo.html?secret=" + secret;

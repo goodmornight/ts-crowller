@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import { Request, Response } from 'express';
 import { controller, get } from './decorator';
+import { getResponseData } from '../utils/util';
 
 interface BodyRequest extends Request {
   body: {
@@ -10,8 +11,17 @@ interface BodyRequest extends Request {
 
 @controller
 class LoginController {
+  @get('/logout')
+  logout(req: BodyRequest, res: Response) {
+    if(req.session) {
+      req.session.login = undefined;
+    }
+    res.json(getResponseData(true));
+  }
+
+
   @get('/')
-  home(req: BodyRequest, res: Response){
+  home(req: BodyRequest, res: Response) {
     const isLogin = req.session ? req.session.login : false;
     if(isLogin) {
       res.send(`
