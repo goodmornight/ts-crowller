@@ -21,6 +21,22 @@ var LoginController = /** @class */ (function () {
         }
         res.json(util_1.getResponseData(true));
     };
+    LoginController.prototype.login = function (req, res) {
+        var password = req.body.password;
+        var isLogin = req.session ? req.session.login : false;
+        if (isLogin) {
+            res.json(util_1.getResponseData(false, '已经登陆过'));
+        }
+        else {
+            if (password === '123' && req.session) {
+                req.session.login = true;
+                res.json(util_1.getResponseData(true));
+            }
+            else {
+                res.json(util_1.getResponseData(false, '登陆失败'));
+            }
+        }
+    };
     LoginController.prototype.home = function (req, res) {
         var isLogin = req.session ? req.session.login : false;
         if (isLogin) {
@@ -36,6 +52,12 @@ var LoginController = /** @class */ (function () {
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "logout", null);
+    __decorate([
+        decorator_1.post('/login'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], LoginController.prototype, "login", null);
     __decorate([
         decorator_1.get('/'),
         __metadata("design:type", Function),
