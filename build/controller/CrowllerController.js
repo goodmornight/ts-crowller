@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CrowllerController = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 require("reflect-metadata");
-var decorator_1 = require("./decorator");
+var decorator_1 = require("../decorator");
 var util_1 = require("../utils/util");
 var crowller_1 = __importDefault(require("../utils/crowller"));
 var analyzer_1 = __importDefault(require("../utils/analyzer"));
@@ -63,7 +64,8 @@ var CrowllerController = /** @class */ (function () {
         __metadata("design:returntype", void 0)
     ], CrowllerController.prototype, "showData", null);
     CrowllerController = __decorate([
-        decorator_1.controller
+        decorator_1.controller('/')
     ], CrowllerController);
     return CrowllerController;
 }());
+exports.CrowllerController = CrowllerController;
