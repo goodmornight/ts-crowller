@@ -57,7 +57,7 @@ var LoginController = /** @class */ (function () {
     };
     var LoginController_1;
     __decorate([
-        decorator_1.get('/api/isLogin'),
+        decorator_1.get('/isLogin'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
@@ -81,7 +81,7 @@ var LoginController = /** @class */ (function () {
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "home", null);
     LoginController = LoginController_1 = __decorate([
-        decorator_1.controller('/')
+        decorator_1.controller('/api')
     ], LoginController);
     return LoginController;
 }());
