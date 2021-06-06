@@ -43,7 +43,7 @@ var CrowllerController = /** @class */ (function () {
         try {
             var position = path_1.default.resolve(__dirname, '../../data/course.json');
             var result = fs_1.default.readFileSync(position, 'utf8');
-            res.send(JSON.parse(result));
+            res.json(util_1.getResponseData(JSON.parse(result)));
         }
         catch (e) {
             res.json(util_1.getResponseData(false, '数据不存在'));
